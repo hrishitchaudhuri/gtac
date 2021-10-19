@@ -132,10 +132,14 @@ void runEuler(Graph *g) {
 int main() {
     Graph *g = (Graph *) malloc(sizeof(Graph));
     g->num_vertices = 7;
-    g->vertices = (int **) malloc(sizeof(int *) * 7);
+    g->vertices = (int **) malloc(sizeof(int *) * g->num_vertices);
 
-    for (int i = 0; i < 7; i++) 
-        g->vertices[i] = (int *) malloc(sizeof(int) * 7);
+    for (int i = 0; i < g->num_vertices; i++) 
+        g->vertices[i] = (int *) malloc(sizeof(int) * g->num_vertices);
+
+    for (int i = 0; i < g->num_vertices; i++) 
+        for (int j = 0; j < g->num_vertices; j++)
+            g->vertices[i][j] = 0; 
 
     addGraphEdge(g, 0, 1);
     addGraphEdge(g, 0, 2);
@@ -149,7 +153,7 @@ int main() {
 
     runEuler(g);
 
-    for (int i = 0; i < 7; i++) 
+    for (int i = 0; i < g->num_vertices; i++) 
         free(g->vertices[i]);
 
     free(g->vertices);
