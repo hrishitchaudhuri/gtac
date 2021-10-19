@@ -55,6 +55,7 @@ int countConnectedComponents(Graph *g, int u, int *visited) {
         if (visited[adj[i]] == 0)
             count += countConnectedComponents(g, adj[i], visited);
         
+    free(adj);
     return count;
 }
 
@@ -101,6 +102,8 @@ void getEulerCircuit(Graph *g, int v) {
         if (isNotBridge(g, v, adj_list[i])) {
             deleteGraphEdge(g, v, adj_list[i]);
             getEulerCircuit(g, adj_list[i]);
+
+            free(adj_list);
             return;
         }
     }
@@ -145,6 +148,12 @@ int main() {
     addGraphEdge(g, 5, 6);
 
     runEuler(g);
+
+    for (int i = 0; i < 7; i++) 
+        free(g->vertices[i]);
+
+    free(g->vertices);
+    free(g);
 
     return 0;
 }
