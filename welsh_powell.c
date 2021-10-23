@@ -1,48 +1,13 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-typedef struct Graph {
-    int **vertices;
-    int num_vertices;
-} Graph;
-
-void addGraphEdge(Graph *g, int v1, int v2) {
-    g->vertices[v1][v2] = 1;
-    g->vertices[v2][v1] = 1;
-}
-
-void deleteGraphEdge(Graph *g, int v1, int v2) {
-    g->vertices[v1][v2] = 0;
-    g->vertices[v2][v1] = 0;
-}
-
-int countDegree(Graph *g, int v) {
-    int count = 0;
-    for (register int i = 0; i < g->num_vertices; i++)
-        if (g->vertices[v][i] == 1)
-            count++;
-    
-    return count;
-}
+#include"graph.h"
 
 int isUncoloured(int *colours, int n) {
     for (register int i = 0; i < n; i++)
         if (colours[i] == -1)
             return 1;
     return 0;
-}
-
-int *getAdjacencyList(Graph *g, int v) {
-    int *vertices = (int *) malloc(sizeof(int) * countDegree(g, v));
-
-    int curr = 0;
-    for (register int i = 0; i < g->num_vertices; i++)
-        if (g->vertices[v][i] == 1) {
-            vertices[curr] = i;
-            curr++;
-        }
-
-    return vertices;
 }
 
 int inList(int *ls, int v, int n) {
@@ -79,15 +44,13 @@ void colourIndependentVertices(Graph *g, int v, int colour, int *colours) {
 }
 
 int *WelshPowellColouring(Graph *g) {
-    // WPC returns an array of ints representing unique colours
-
     int *colours = (int *) malloc(sizeof(int) * g->num_vertices);
     for (register int i = 0; i < g->num_vertices; i++)
-        colours[i] = -1; // Initialization of colour vector
+        colours[i] = -1; 
 
     int *degrees = (int *) malloc(sizeof(int) * g->num_vertices);
     for (register int i = 0; i < g->num_vertices; i++)
-        degrees[i] = countDegree(g, i); // Initialization of degree vector
+        degrees[i] = countDegree(g, i); 
 
     int max, curr, colour = 0;
     while (isUncoloured(colours, g->num_vertices)) {
@@ -121,22 +84,22 @@ int main() {
         for (int j = 0; j < g->num_vertices; j++)
             g->vertices[i][j] = 0; 
 
-    addGraphEdge(g, 0, 1);
-    addGraphEdge(g, 0, 7);
-    addGraphEdge(g, 1, 3);
-    addGraphEdge(g, 2, 3);
-    addGraphEdge(g, 3, 8);
-    addGraphEdge(g, 3, 10);
-    addGraphEdge(g, 4, 5);
-    addGraphEdge(g, 4, 10);
-    addGraphEdge(g, 5, 6);
-    addGraphEdge(g, 6, 7);
-    addGraphEdge(g, 6, 10);
-    addGraphEdge(g, 7, 8);
-    addGraphEdge(g, 7, 9);
-    addGraphEdge(g, 7, 10);
-    addGraphEdge(g, 8, 9);
-    addGraphEdge(g, 9, 10);
+    addUnweightedUndirectedGraphEdge(g, 0, 1);
+    addUnweightedUndirectedGraphEdge(g, 0, 7);
+    addUnweightedUndirectedGraphEdge(g, 1, 3);
+    addUnweightedUndirectedGraphEdge(g, 2, 3);
+    addUnweightedUndirectedGraphEdge(g, 3, 8);
+    addUnweightedUndirectedGraphEdge(g, 3, 10);
+    addUnweightedUndirectedGraphEdge(g, 4, 5);
+    addUnweightedUndirectedGraphEdge(g, 4, 10);
+    addUnweightedUndirectedGraphEdge(g, 5, 6);
+    addUnweightedUndirectedGraphEdge(g, 6, 7);
+    addUnweightedUndirectedGraphEdge(g, 6, 10);
+    addUnweightedUndirectedGraphEdge(g, 7, 8);
+    addUnweightedUndirectedGraphEdge(g, 7, 9);
+    addUnweightedUndirectedGraphEdge(g, 7, 10);
+    addUnweightedUndirectedGraphEdge(g, 8, 9);
+    addUnweightedUndirectedGraphEdge(g, 9, 10);
 
     int *colours = WelshPowellColouring(g);
 

@@ -1,74 +1,18 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-typedef struct Graph {
-    int **vertices;
-    int num_vertices;
-} Graph;
-
-void addGraphEdge(Graph *g, int v1, int v2) {
-    g->vertices[v1][v2] = 1;
-    g->vertices[v2][v1] = 1;
-}
-
-void deleteGraphEdge(Graph *g, int v1, int v2) {
-    g->vertices[v1][v2] = 0;
-    g->vertices[v2][v1] = 0;
-}
-
-int countDegree(Graph *g, int v) {
-    int count = 0;
-    for (register int i = 0; i < g->num_vertices; i++)
-        if (g->vertices[v][i] == 1)
-            count++;
-    
-    return count;
-}
-
-int getSolitaryVertex(Graph *g, int v) {
-    for (register int i = 0; i < g->num_vertices; i++)
-        if (g->vertices[v][i] == 1)
-            return i;
-    return -1;
-}
-
-int *getAdjacencyList(Graph *g, int v) {
-    int *vertices = (int *) malloc(sizeof(int) * countDegree(g, v));
-
-    int curr = 0;
-    for (register int i = 0; i < g->num_vertices; i++)
-        if (g->vertices[v][i] == 1) {
-            vertices[curr] = i;
-            curr++;
-        }
-
-    return vertices;
-}
-
-int countConnectedComponents(Graph *g, int u, int *visited) {
-    visited[u] = 1;
-
-    int count = 1;
-    int *adj = getAdjacencyList(g, u);
-
-    for (register int i = 0; i < countDegree(g, u); i++)
-        if (visited[adj[i]] == 0)
-            count += countConnectedComponents(g, adj[i], visited);
-        
-    free(adj);
-    return count;
-}
+#include"graph.h"
 
 int isNotBridge(Graph *g, int v, int u) {
     int pre_connections, post_connections;
     int *visited = (int *) malloc(sizeof(int) * g->num_vertices);
 
-    deleteGraphEdge(g, v, u);
+    deleteUndirectedGraphEdge(g, v, u);
     for (register int i = 0; i < g->num_vertices; i++)
         visited[i] = 0;
     post_connections = countConnectedComponents(g, u, visited);
 
-    addGraphEdge(g, v, u);
+    addUnweightedUndirectedGraphEdge(g, v, u);
     for (register int i = 0; i < g->num_vertices; i++)
         visited[i] = 0;
     pre_connections = countConnectedComponents(g, u, visited);
@@ -90,7 +34,7 @@ void getEulerCircuit(Graph *g, int v) {
     if (degree == 1) {
         int v_new = getSolitaryVertex(g, v);
         if (v_new != -1) {
-            deleteGraphEdge(g, v, v_new);
+            deleteUndirectedGraphEdge(g, v, v_new);
             getEulerCircuit(g, v_new);
             return;
         }
@@ -100,7 +44,7 @@ void getEulerCircuit(Graph *g, int v) {
 
     for (register int i = 0; i < degree; i++) {
         if (isNotBridge(g, v, adj_list[i])) {
-            deleteGraphEdge(g, v, adj_list[i]);
+            deleteUndirectedGraphEdge(g, v, adj_list[i]);
             getEulerCircuit(g, adj_list[i]);
 
             free(adj_list);
@@ -109,7 +53,7 @@ void getEulerCircuit(Graph *g, int v) {
     }
 }
 
-void runEuler(Graph *g) {
+void getEuler(Graph *g) {
     int count_odd_del = 0;
     int odd_vertex = -1;
 
@@ -141,17 +85,17 @@ int main() {
         for (int j = 0; j < g->num_vertices; j++)
             g->vertices[i][j] = 0; 
 
-    addGraphEdge(g, 0, 1);
-    addGraphEdge(g, 0, 2);
-    addGraphEdge(g, 0, 3);
-    addGraphEdge(g, 0, 5);
-    addGraphEdge(g, 1, 2);
-    addGraphEdge(g, 1, 4);
-    addGraphEdge(g, 1, 6);
-    addGraphEdge(g, 4, 5);
-    addGraphEdge(g, 5, 6);
+    addUnweightedUndirectedGraphEdge(g, 0, 1);
+    addUnweightedUndirectedGraphEdge(g, 0, 2);
+    addUnweightedUndirectedGraphEdge(g, 0, 3);
+    addUnweightedUndirectedGraphEdge(g, 0, 5);
+    addUnweightedUndirectedGraphEdge(g, 1, 2);
+    addUnweightedUndirectedGraphEdge(g, 1, 4);
+    addUnweightedUndirectedGraphEdge(g, 1, 6);
+    addUnweightedUndirectedGraphEdge(g, 4, 5);
+    addUnweightedUndirectedGraphEdge(g, 5, 6);
 
-    runEuler(g);
+    getEuler(g);
 
     for (int i = 0; i < g->num_vertices; i++) 
         free(g->vertices[i]);

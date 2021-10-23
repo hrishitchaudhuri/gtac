@@ -1,0 +1,14 @@
+1. Fleury's Algorithm (c. 19/10)
+2. Welsh-Powell Colouring (c. 19/10)
+3. Boruvka + Reverse Delete for MSTs
+4. Chinese Postman Problem
+5. Maximum Matching in Bipartite Graphs
+6. Tarjan's Algorithm for Articulation Points
+
+7. Create separate Graph header file (including file read). 
+8. Create interface files for 1-6
+9. Write documentation comments (preferably in JAVADOC format)
+10. Write test-cases for 1-6
+11. Generate Makefile
+12. Complete README
+13. Complete error handling and edge cases
