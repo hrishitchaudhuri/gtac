@@ -1,9 +1,9 @@
 1. Fleury's Algorithm (c. 19/10)
 2. Welsh-Powell Colouring (c. 19/10)
-3. Boruvka + Reverse Delete for MSTs
+3. Boruvka + Reverse Delete for MSTs (c. 22/10)
 4. Chinese Postman Problem
 5. Maximum Matching in Bipartite Graphs
-6. Tarjan's Algorithm for Articulation Points
+6. Tarjan's Algorithm for Articulation Points (c. 27/10)
 
 7. Create separate Graph header file (including file read). 
 8. Create interface files for 1-6
