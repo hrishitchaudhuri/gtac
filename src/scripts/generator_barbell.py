@@ -19,7 +19,7 @@ x, y = A.shape
 
 fptr = open(fname, "w")
 
-ret = str(M1 + M2) + "\n"
+ret = str(2 * M1 + M2) + "\n"
 
 for i in range(x):
     for j in range(y):

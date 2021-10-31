@@ -9,8 +9,8 @@ void getDFSTree(Graph *g, int *visited, int v, int *discovered, int *low, int *t
 
     int count_children = 0;
 
-    discovered[v] = *time;
-    low[v] = *time;
+    discovered[v] = *time + 1;
+    low[v] = *time + 1;
     (*time)++;
 
     int *adj = getAdjacencyList(g, v);
@@ -45,6 +45,7 @@ int *Tarjan(Graph *g) {
 
     for (register int i = 0; i < g->num_vertices; i++) {
         discovered[i] = 0;
+        low[i] = -1;
         visited[i] = 0;
         isArticulation[i] = 0;
     }
