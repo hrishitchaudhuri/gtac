@@ -1,18 +1,19 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#include"graph.h"
+#include"utils/graph.h"
+#include"utils/fileread.h"
 
 int isNotBridge(Graph *g, int v, int u) {
     int pre_connections, post_connections;
     int *visited = (int *) malloc(sizeof(int) * g->num_vertices);
 
-    deleteUndirectedGraphEdge(g, v, u);
+    deleteUndirectedMultigraphEdge(g, v, u);
     for (register int i = 0; i < g->num_vertices; i++)
         visited[i] = 0;
     post_connections = countConnectedComponents(g, u, visited);
 
-    addUnweightedUndirectedGraphEdge(g, v, u);
+    addUnweightedUndirectedMultigraphEdge(g, v, u);
     for (register int i = 0; i < g->num_vertices; i++)
         visited[i] = 0;
     pre_connections = countConnectedComponents(g, u, visited);
@@ -24,9 +25,9 @@ int isNotBridge(Graph *g, int v, int u) {
 }
 
 void getEulerCircuit(Graph *g, int v) {
-    printf("%d\n", v);
+    printf("%d ", v);
 
-    int degree = countDegree(g, v);
+    int degree = countMultigraphDegree(g, v);
 
     if (degree == 0)
         return;
@@ -58,7 +59,7 @@ void getEuler(Graph *g) {
     int odd_vertex = -1;
 
     for (register int i = 0; i < g->num_vertices; i++) {
-        if (countDegree(g, i) % 2 == 1) {
+        if (countMultigraphDegree(g, i) % 2 == 1) {
             count_odd_del++;
             odd_vertex = i;
         }
@@ -70,38 +71,14 @@ void getEuler(Graph *g) {
     else if (count_odd_del == 2)
         getEulerCircuit(g, odd_vertex);
 
-    else printf("-1\n");
+    else printf("-1");
+    printf("\n");
 }
 
 int main() {
-    Graph *g = (Graph *) malloc(sizeof(Graph));
-    g->num_vertices = 7;
-    g->vertices = (int **) malloc(sizeof(int *) * g->num_vertices);
-
-    for (int i = 0; i < g->num_vertices; i++) 
-        g->vertices[i] = (int *) malloc(sizeof(int) * g->num_vertices);
-
-    for (int i = 0; i < g->num_vertices; i++) 
-        for (int j = 0; j < g->num_vertices; j++)
-            g->vertices[i][j] = 0; 
-
-    addUnweightedUndirectedGraphEdge(g, 0, 1);
-    addUnweightedUndirectedGraphEdge(g, 0, 2);
-    addUnweightedUndirectedGraphEdge(g, 0, 3);
-    addUnweightedUndirectedGraphEdge(g, 0, 5);
-    addUnweightedUndirectedGraphEdge(g, 1, 2);
-    addUnweightedUndirectedGraphEdge(g, 1, 4);
-    addUnweightedUndirectedGraphEdge(g, 1, 6);
-    addUnweightedUndirectedGraphEdge(g, 4, 5);
-    addUnweightedUndirectedGraphEdge(g, 5, 6);
-
+    Graph *g = readFile("inputs/graph_euler.txt");
     getEuler(g);
 
-    for (int i = 0; i < g->num_vertices; i++) 
-        free(g->vertices[i]);
-
-    free(g->vertices);
-    free(g);
-
+    destroyGraph(g);
     return 0;
 }

@@ -1,7 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#include "graph.h"
+#include"utils/graph.h"
+#include"utils/fileread.h"
 
 void getDFSTree(Graph *g, int *visited, int v, int *discovered, int *low, int *time, int pt, int *isArticulation) {
     visited[v] = 1;
@@ -64,22 +65,7 @@ int *Tarjan(Graph *g) {
 
 
 int main() {
-    Graph *g = (Graph *) malloc(sizeof(Graph));
-    g->num_vertices = 5;
-    g->vertices = (int **) malloc(sizeof(int *) * g->num_vertices);
-
-    for (int i = 0; i < g->num_vertices; i++) 
-        g->vertices[i] = (int *) malloc(sizeof(int) * g->num_vertices);
-
-    for (int i = 0; i < g->num_vertices; i++) 
-        for (int j = 0; j < g->num_vertices; j++)
-            g->vertices[i][j] = 0; 
-
-    addUnweightedUndirectedGraphEdge(g, 1, 0);
-    addUnweightedUndirectedGraphEdge(g, 0, 2);
-    addUnweightedUndirectedGraphEdge(g, 2, 1);
-    addUnweightedUndirectedGraphEdge(g, 0, 3);
-    addUnweightedUndirectedGraphEdge(g, 3, 4);
+    Graph *g = readFile("inputs/graph_tarjan.txt");
 
     int *tarjan = Tarjan(g);
 

@@ -1,7 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#include"graph.h"
+#include"utils/graph.h"
+#include"utils/fileread.h"
 
 int isUncoloured(int *colours, int n) {
     for (register int i = 0; i < n; i++)
@@ -73,33 +74,7 @@ int *WelshPowellColouring(Graph *g) {
 }
 
 int main() {
-    Graph *g = (Graph *) malloc(sizeof(Graph));
-    g->num_vertices = 11;
-    g->vertices = (int **) malloc(sizeof(int *) * g->num_vertices);
-
-    for (int i = 0; i < g->num_vertices; i++) 
-        g->vertices[i] = (int *) malloc(sizeof(int) * g->num_vertices);
-
-    for (int i = 0; i < g->num_vertices; i++) 
-        for (int j = 0; j < g->num_vertices; j++)
-            g->vertices[i][j] = 0; 
-
-    addUnweightedUndirectedGraphEdge(g, 0, 1);
-    addUnweightedUndirectedGraphEdge(g, 0, 7);
-    addUnweightedUndirectedGraphEdge(g, 1, 3);
-    addUnweightedUndirectedGraphEdge(g, 2, 3);
-    addUnweightedUndirectedGraphEdge(g, 3, 8);
-    addUnweightedUndirectedGraphEdge(g, 3, 10);
-    addUnweightedUndirectedGraphEdge(g, 4, 5);
-    addUnweightedUndirectedGraphEdge(g, 4, 10);
-    addUnweightedUndirectedGraphEdge(g, 5, 6);
-    addUnweightedUndirectedGraphEdge(g, 6, 7);
-    addUnweightedUndirectedGraphEdge(g, 6, 10);
-    addUnweightedUndirectedGraphEdge(g, 7, 8);
-    addUnweightedUndirectedGraphEdge(g, 7, 9);
-    addUnweightedUndirectedGraphEdge(g, 7, 10);
-    addUnweightedUndirectedGraphEdge(g, 8, 9);
-    addUnweightedUndirectedGraphEdge(g, 9, 10);
+    Graph *g = readFile("inputs/graph_wpc.txt");
 
     int *colours = WelshPowellColouring(g);
 

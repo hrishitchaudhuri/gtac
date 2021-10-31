@@ -1,8 +1,9 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-#include"graph.h"
-#include"disjoint_set.h"
+#include"utils/graph.h"
+#include"utils/fileread.h"
+#include"utils/disjoint_set.h"
 
 typedef struct edge_tuple {
     int src;
@@ -65,6 +66,20 @@ Graph *BoruvkaMST(Graph *g) {
                     min_edges[c2] = i;
             }
         }
+
+        /*for (register int i = 0; i < mst->num_vertices; i++) {
+            if (min_edges[i] != -1) {
+                c1 = disjointSetFind(subsets, edges[min_edges[i]].src);
+                c2 = disjointSetFind(subsets, edges[min_edges[i]].dest);
+
+                if (c1 != c2) {
+                    addWeightedUndirectedGraphEdge(mst, edges[min_edges[i]].src, edges[min_edges[i]].dest, edges[min_edges[i]].cost);
+                    disjointSetUnion(subsets, c1, c2);
+
+                    connected_components--;
+                }
+            }
+        }*/
 
         for (register int i = 0; i < edge_count; i++) {
             c1 = disjointSetFind(subsets, edges[i].src);
@@ -176,24 +191,7 @@ Graph *reverseDeleteMST(Graph *g) {
 
 
 int main() {
-    Graph *g = (Graph *) malloc(sizeof(Graph));
-    g->num_vertices = 5;
-    g->vertices = (int **) malloc(sizeof(int *) * g->num_vertices);
-
-    for (int i = 0; i < g->num_vertices; i++) 
-        g->vertices[i] = (int *) malloc(sizeof(int) * g->num_vertices);
-
-    for (int i = 0; i < g->num_vertices; i++) 
-        for (int j = 0; j < g->num_vertices; j++)
-            g->vertices[i][j] = 0; 
-
-    addWeightedUndirectedGraphEdge(g, 0, 1, 8);
-    addWeightedUndirectedGraphEdge(g, 0, 2, 5);
-    addWeightedUndirectedGraphEdge(g, 1, 2, 9);
-    addWeightedUndirectedGraphEdge(g, 2, 4, 10);
-    addWeightedUndirectedGraphEdge(g, 2, 3, 15);
-    addWeightedUndirectedGraphEdge(g, 1, 3, 11);
-    addWeightedUndirectedGraphEdge(g, 3, 4, 7);
+    Graph *g = readFile("inputs/graph_mst.txt");
 
     Graph *mst = reverseDeleteMST(g);
 
@@ -203,5 +201,18 @@ int main() {
         printf("\n");
     }
 
+    destroyGraph(mst);
+
+    /*Graph *mst = BoruvkaMST(g);
+
+    for (int i = 0; i < mst->num_vertices; i++) {
+        for (int j = 0; j < mst->num_vertices; j++)
+            printf("%d ", mst->vertices[i][j]); 
+        printf("\n");
+    }
+
+    destroyGraph(mst);*/
+
+    destroyGraph(g);
     return 0;
 }
