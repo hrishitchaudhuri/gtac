@@ -66,7 +66,7 @@ int *Tarjan(Graph *g) {
 
 
 int main() {
-    Graph *g = readFile("inputs/graph_tarjan.txt");
+    Graph *g = readFile("../inputs/graph_tarjan.txt");
 
     int *tarjan = Tarjan(g);
 

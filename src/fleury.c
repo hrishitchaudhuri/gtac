@@ -76,7 +76,7 @@ void getEuler(Graph *g) {
 }
 
 int main() {
-    Graph *g = readFile("inputs/graph_euler.txt");
+    Graph *g = readFile("../inputs/graph_euler.txt");
     getEuler(g);
 
     destroyGraph(g);

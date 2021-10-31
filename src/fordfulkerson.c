@@ -44,13 +44,13 @@ int *returnMatchings(Graph *g, int M, int N) {
 }
 
 int main() {
-    FILE *fptr = fopen("inputs/graph_bipartite.txt", "r");
+    FILE *fptr = fopen("../inputs/graph_bipartite.txt", "r");
     int bpm, bpn;
 
     fscanf(fptr, "%d %d\n", &bpm, &bpn);
     fclose(fptr);
 
-    Graph *g = readBipartiteFile("inputs/graph_bipartite.txt");
+    Graph *g = readBipartiteFile("../inputs/graph_bipartite.txt");
 
     int *matches = returnMatchings(g, bpm, bpn);
 

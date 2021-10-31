@@ -74,7 +74,7 @@ int *WelshPowellColouring(Graph *g) {
 }
 
 int main() {
-    Graph *g = readFile("inputs/graph_wpc.txt");
+    Graph *g = readFile("../inputs/graph_wpc.txt");
 
     int *colours = WelshPowellColouring(g);
 
